@@ -18,7 +18,7 @@
         @endif
         <div class="container__services">
             @if (auth()->check())
-                @if (auth()->user()->role === 'personal_clinico' || auth()->user()->role === 'personal_lavanderia')
+                @if (auth()->user()->role === 'personal_clinico' || auth()->user()->role === 'personal_lavanderia' || auth()->user()->role === 'admin_hospital')
                     <a href="{{ route('movimiento') }}">Registrar movimiento</a>
                 @endif
 

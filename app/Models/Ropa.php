@@ -9,11 +9,18 @@ class Ropa extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tipo', 'cantidad', 'estado'];
+    protected $table = 'ropa';
 
-    // Relación con Movimiento (Una prenda puede estar asociada a muchos Movimientos)
-    public function movimientos()
+    protected $fillable = ['tipo', 'cantidad', 'estado', 'inventario_id'];
+
+    public function inventario()
     {
-        return $this->hasMany(Movimiento::class);
+        return $this->belongsTo(Inventario::class);
     }
+
+    public function scopeTotalPorTipo($query, $tipo)
+    {
+        return $query->where('tipo', $tipo)->sum('cantidad');
+    }
+
 }

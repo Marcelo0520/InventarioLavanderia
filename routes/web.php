@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovimientoController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UbicacionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\returnValueMap;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,14 +35,17 @@ Route::post('/logout', function () {
 })->name('logout');
 
 
-Route::get('/reporte', function () {
+Route::get('/reporte', function(){ 
     return view('reporte');
 })->name('reporte');
 
-// Ruta para mostrar el formulario de movimiento
+Route::get('/reporte/tipo', [ReporteController::class, 'mostrarReportePorTipo'])->name('reporte.tipo');
+
+Route::get('/reporte/ubicacion', [ReporteController::class, 'mostrarReportePorUbicacion'])->name('reporte.ubicacion');
+
+
 Route::get('/movimiento', [UbicacionController::class, 'mostrarFormularioMovimiento'])->name('movimiento');
 
-// Ruta para almacenar el movimiento después de que el usuario lo envíe
 Route::post('/movimiento', [MovimientoController::class, 'store'])->name('movimiento.store');
 
 

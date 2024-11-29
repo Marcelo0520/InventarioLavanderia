@@ -9,11 +9,28 @@ class Inventario extends Model
 {
     use HasFactory;
 
+    protected $table = 'inventario';
+
     protected $fillable = ['total', 'ubicacion_id'];
 
-    // Relación con Ubicación (Un Inventario pertenece a una Ubicación)
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class);
     }
+
+    public function ropas()
+    {
+        return $this->hasMany(Ropa::class);
+    }
+
+    public function calcularTotalPorTipo($tipo)
+    {
+        return $this->ropas()->totalPorTipo($tipo);
+    }
+
+    public function calcularTotalGeneral()
+    {
+        return $this->ropas()->sum('cantidad');
+    }
+
 }

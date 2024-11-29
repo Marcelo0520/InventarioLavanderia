@@ -11,15 +11,13 @@ class Movimiento extends Model
 
     protected $table = 'movimiento';
 
-    protected $fillable = ['fecha', 'tipoMov', 'cantidad', 'tipoRopa', 'ubicacion_id', 'usuario_id'];
+    protected $fillable = ['fecha', 'tipoMov', 'cantidad', 'tipoRopa', 'ubicacion_id', 'usuario_id', 'estado'];
 
-    // Relación con Usuario (Un Movimiento pertenece a un Usuario)
     public function usuario()
     {
         return $this->belongsTo(Usuario::class);
     }
 
-    // Relación con Ubicación (Un Movimiento pertenece a una Ubicación)
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class);
