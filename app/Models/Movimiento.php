@@ -11,7 +11,7 @@ class Movimiento extends Model
 
     protected $table = 'movimiento';
 
-    protected $fillable = ['fecha', 'tipoMov', 'cantidad', 'tipoRopa', 'ubicacion_id', 'usuario_id', 'estado'];
+    protected $fillable = ['fecha', 'tipoMov', 'cantidad', 'tipoRopa', 'ubicacion_id', 'usuario_id', 'estado','ropa_id'];
 
     public function usuario()
     {
@@ -22,4 +22,9 @@ class Movimiento extends Model
     {
         return $this->belongsTo(Ubicacion::class);
     }
+
+    public function ropa()
+{
+    return $this->hasOne(Ropa::class, 'tipo', 'tipoRopa');  // 'tipo' es el campo en Ropa y 'tipoRopa' es el campo en Movimiento
+}
 }

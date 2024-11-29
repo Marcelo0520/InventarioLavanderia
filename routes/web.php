@@ -43,12 +43,22 @@ Route::get('/reporte/tipo', [ReporteController::class, 'mostrarReportePorTipo'])
 
 Route::get('/reporte/ubicacion', [ReporteController::class, 'mostrarReportePorUbicacion'])->name('reporte.ubicacion');
 
+Route::get('/reporte/tipo/{tipo}/pdf', [ReporteController::class, 'generarPdfPorTipo'])->name('reporte.tipo.pdf');
+
+Route::get('/reporte/ubicacion/{ubicacion}/pdf', [ReporteController::class, 'generarPdfPorUbicacion'])->name('reporte.ubicacion.pdf');
+
+Route::get('/reporte-general', [ReporteController::class, 'reporteGeneral'])->name('reporte.general');
+
+Route::get('/reporteropageneral', [ReporteController::class, 'generarPdfGeneral'])->name('reporte.general.pdf');
+
 
 Route::get('/movimiento', [UbicacionController::class, 'mostrarFormularioMovimiento'])->name('movimiento');
 
 Route::post('/movimiento', [MovimientoController::class, 'store'])->name('movimiento.store');
 
+Route::get('/transacciones', [MovimientoController::class, 'index'])->name('transacciones.index');
 
+Route::get('/transacciones/{id}', [MovimientoController::class, 'show'])->name('transacciones.show');
 
 
 

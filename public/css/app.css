@@ -705,7 +705,7 @@ tbody tr.no-data {
 }
 
 .report__option{
-    width: 100%;
+    margin: 2em auto;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -714,27 +714,27 @@ tbody tr.no-data {
 
 .report__option{
         cursor: pointer;
-        border: 0px solid rgb(187, 204, 0);
         font-size: 16px;
-        color: rgb(255, 255, 255);
+        color: #ffffff;
         padding: .5em 1em;
         transition: .3s;
         
         width: 335px;
         box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
         border-radius: 6px;
-        background: linear-gradient(126deg, rgb(26, 67, 107) 0%, rgb(17, 93, 198) 100%);
+        background-color: var(--primary);
         font-weight: 400;
         transition: box-shadow .3s ease-in-out;
 }
 
 .atractive__title{
+    display: block;
     background-color: #dad9d9;
     padding: 1em;
 }
 .report__option:hover{
     color:white;
-    box-shadow:rgb(0, 0, 0) 5px 4px 0px;
+    box-shadow:#00000090 5px 4px 0px;
 }
 
 .container__svg__reporte{
@@ -747,6 +747,18 @@ tbody tr.no-data {
 .container__svg__reporte img{
     width: 40%;
 }
+
+.search__form{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin: auto;
+}
+
+td{
+    text-transform: capitalize;
+}
+
 footer{
     height: 50vh;
     background-color: var(--text);

@@ -18,12 +18,12 @@
         @endif
         <div class="container__services">
             @if (auth()->check())
-                @if (auth()->user()->role === 'personal_clinico' || auth()->user()->role === 'personal_lavanderia' || auth()->user()->role === 'admin_hospital')
+                @if (auth()->user()->role === 'personal_clinico' || auth()->user()->role === 'personal_lavanderia')
                     <a href="{{ route('movimiento') }}">Registrar movimiento</a>
                 @endif
 
                 @if (auth()->user()->role === 'supervisor_inventario' || auth()->user()->role === 'admin_hospital')
-                    <a href="#">Transacciones</a>
+                    <a href="{{route('transacciones.index')}}">Transacciones</a>
                 @endif
 
                 @if (auth()->user()->role === 'admin_hospital' || auth()->user()->role === 'supervisor_inventario')
