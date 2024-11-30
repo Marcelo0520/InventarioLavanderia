@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\RopaController;
 use App\Http\Controllers\UbicacionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,8 @@ Route::get('/transacciones', [MovimientoController::class, 'index'])->name('tran
 
 Route::get('/transacciones/{id}', [MovimientoController::class, 'show'])->name('transacciones.show');
 
+Route::get('/ropa/cambiar-estado', [RopaController::class, 'showChangeStateForm'])->name('ropa.cambiarEstado');
 
+Route::post('/ropa/cambiar-estado', [RopaController::class, 'changeState'])->name('ropa.changeState');
 
 

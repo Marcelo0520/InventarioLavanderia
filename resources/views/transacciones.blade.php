@@ -56,7 +56,8 @@
                 <th>Tipo de Movimiento</th>
                 <th>Cantidad</th>
                 <th>Ubicación</th>
-                <th>Fecha y Hora</th>
+                <th>Fecha</th>
+                <th>Hora</th>
                 <th>Estado</th>
                 <th>Usuario</th>
             </tr>
@@ -67,13 +68,22 @@
                     <td>{{ $movimiento->tipoMov }}</td>
                     <td>{{ $movimiento->cantidad }}</td>
                     <td>{{ $movimiento->ubicacion->nombre ?? 'No asignada' }}</td>
-                    <td>{{ $movimiento->fecha }}</td>
+                    <td>
+                        {{ \Carbon\Carbon::parse($movimiento->fecha)->format('Y-m-d') }}
+                    </td>
+                    <td>
+                        {{ \Carbon\Carbon::parse($movimiento->fecha)->format('H:i:s') }}
+                    </td>
                     <td>{{ $movimiento->estado }}</td>
                     <td>{{ $movimiento->usuario->username ?? 'No asignado' }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $movimientos->links('pagination::bootstrap-5') }}
+    </div>
+    
 </div>
 
 

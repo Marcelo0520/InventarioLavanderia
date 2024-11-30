@@ -17,9 +17,14 @@
             <h4>Servicios disponibles para usted como usuario <span> {{ Str::replace('_', ' ', auth()->user()->role) }}</span></h4>
         @endif
         <div class="container__services">
+            {{-- Este apartado maneja la lógica de usuarios respecto a sus roles dentro del sistema --}}
             @if (auth()->check())
                 @if (auth()->user()->role === 'personal_clinico' || auth()->user()->role === 'personal_lavanderia')
                     <a href="{{ route('movimiento') }}">Registrar movimiento</a>
+                @endif
+
+                @if (auth()->user()->role === 'personal_clinico' || auth()->user()->role === 'personal_lavanderia')
+                    <a href="{{ route('ropa.cambiarEstado') }}">Modificar Estado</a>
                 @endif
 
                 @if (auth()->user()->role === 'supervisor_inventario' || auth()->user()->role === 'admin_hospital')

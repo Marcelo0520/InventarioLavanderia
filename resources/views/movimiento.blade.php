@@ -24,18 +24,20 @@
         <!-- Tipo de Movimiento -->
         <div class="container__input">
             <label for="tipoMov">Tipo de Movimiento:</label>
-        <select name="tipoMov" id="tipoMov" required>
+        <select  class="form-select" name="tipoMov" id="tipoMov" required>
             <option value="Ingreso">Ingreso</option>
             <option value="Egreso">Egreso</option>
         </select>
     
-        <!-- Cantidad -->
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" name="cantidad" id="cantidad" required min="1">
+        <div class="mb-3">
+            <!-- Cantidad -->
+        <label for="cantidad" class="form-label">Cantidad:</label>
+        <input class="form-control" type="number" name="cantidad" id="cantidad" required min="1">
+        </div>
     
         <div class="container__input">
             <label for="estado">Estado de la Ropa</label>
-            <select id="estado" name="estado" class="form-control" required>
+            <select  class="form-select" id="estado" name="estado" class="form-control" required>
                 <option value="limpia">Limpia</option>
                 <option value="sucia">Sucia</option>
             </select>
@@ -43,7 +45,7 @@
 
         <!-- Tipo de Ropa -->
         <label for="tipoRopa">Tipo de Ropa:</label>
-        <select name="tipoRopa" id="tipoRopa" required>
+        <select  class="form-select" name="tipoRopa" id="tipoRopa" required>
             <option value="sabanas">Sábanas</option>
             <option value="almohadas">Almohadas</option>
             <option value="batas">Batas</option>
@@ -55,7 +57,7 @@
     
         <!-- Ubicación -->
         <label for="ubicacion_id">Ubicación:</label>
-        <select name="ubicacion_id" id="ubicacion_id" required>
+        <select  class="form-select" name="ubicacion_id" id="ubicacion_id" required>
             @foreach ($ubicaciones as $ubicacion)
             <option value="{{ $ubicacion->id }}">
                 {{ $ubicacion->nombre }} {{$ubicacion->tipoArea}} - {{$ubicacion->departamento}} Piso {{ $ubicacion->nivelPiso }}

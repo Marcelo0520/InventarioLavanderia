@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class MovimientoController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, EmailController $emailController)
 {
     $request->validate([
         'tipoMov' => 'required|string',
@@ -22,7 +22,6 @@ class MovimientoController extends Controller
         'ubicacion_id' => 'required|exists:ubicacion,id', // Verificación de la ubicación
     ]);
 
-    // Obtener el inventario de la ubicación
     $inventario = Inventario::where('ubicacion_id', $request->ubicacion_id)->first();
     if (!$inventario) {
         session()->flash('error', 'Ubicación no encontrada.');
@@ -31,19 +30,16 @@ class MovimientoController extends Controller
 
     // Si el movimiento es un **EGRESO**
     if ($request->tipoMov == 'Egreso') {
-        // Buscamos la ropa en el inventario de la ubicación con el estado especificado
         $ropa = Ropa::where('inventario_id', $inventario->id)
             ->where('tipo', $request->tipoRopa)
             ->where('estado', $request->estado) // Usamos el estado (sucia o limpia)
             ->first();
 
-        // Verificamos si hay suficiente cantidad de ropa para egresar
         if (!$ropa || $ropa->cantidad < $request->cantidad) {
             session()->flash('error', 'Cantidad insuficiente en el inventario para egresar ' . $request->cantidad . ' ' . $request->tipoRopa . '(s) en estado ' . $request->estado . '.');
             return back();
         }
 
-        // Descontamos la cantidad de ropa en ese estado
         $ropa->cantidad -= $request->cantidad;
         $ropa->save();
     }
@@ -59,9 +55,7 @@ class MovimientoController extends Controller
     $movimiento->fecha = now();
     $movimiento->save();
 
-    // Si el movimiento es un **Ingreso**, actualizamos el inventario de la ubicación
     if ($request->tipoMov == 'Ingreso') {
-        // Si la ropa ya existe en ese estado (limpia o sucia), simplemente sumamos la cantidad
         $ropaDestino = Ropa::where('inventario_id', $inventario->id)
             ->where('tipo', $request->tipoRopa)
             ->where('estado', $movimiento->estado)
@@ -71,7 +65,6 @@ class MovimientoController extends Controller
             $ropaDestino->cantidad += $request->cantidad;
             $ropaDestino->save();
         } else {
-            // Si no existe la ropa en ese estado, creamos una nueva entrada
             Ropa::create([
                 'tipo' => $request->tipoRopa,
                 'cantidad' => $request->cantidad,
@@ -80,31 +73,30 @@ class MovimientoController extends Controller
             ]);
         }
 
-        // Actualizamos el inventario de la ubicación (sumando las cantidades ingresadas)
         $inventario->total += $request->cantidad;
     }
 
-    // Si el movimiento es un **Egreso**, restamos la cantidad del inventario
     if ($request->tipoMov == 'Egreso') {
         $inventario->total -= $request->cantidad;
     }
 
-    // Verificamos que el inventario no quede negativo
     if ($inventario->total < 0) {
         session()->flash('error', 'No se pudo realizar el movimiento. El inventario no puede ser negativo.');
         return back();
     }
 
-    // Guardamos los cambios en el inventario
     $inventario->save();
 
-    // Mensaje de éxito
+    $emailController->enviarNotificacion($request->ubicacion_id);
+
     session()->flash('success', 'Movimiento de ' . strtolower($request->tipoMov) . ' registrado correctamente: ' .
         $request->cantidad . ' ' . $request->tipoRopa . '(s) en estado ' . $movimiento->estado . ' en la ubicación ' . $inventario->ubicacion->nombre . '.');
 
     return redirect()->route('movimiento');
 }
 
+
+    
 
     public function index(Request $request)
     {
@@ -138,7 +130,7 @@ class MovimientoController extends Controller
             $query->where('estado', $estado);
         }
     
-        $movimientos = $query->get();
+        $movimientos = $query->orderBy('fecha', 'desc')->paginate(10);
     
         $ubicaciones = Ubicacion::all();
         $tiposRopa = Ropa::select('tipo')->distinct()->get();
