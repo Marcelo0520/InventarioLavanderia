@@ -4,8 +4,6 @@
 
 @section('content')
 
-
-
 <div class="container__reporte">
     <h1 class="atractive__title">Seguimiento de los movimientos realizados</h1>
     <form class="search__form" action="{{ route('transacciones.index') }}" method="GET">
@@ -50,42 +48,45 @@
         <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
     
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Tipo de Movimiento</th>
-                <th>Cantidad</th>
-                <th>Ubicación</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Estado</th>
-                <th>Usuario</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($movimientos as $movimiento)
+    @if($movimientos->isEmpty())
+        <div class="alert alert-warning mt-4" role="alert">
+            No se encontraron movimientos que coincidan con los filtros aplicados.
+        </div>
+    @else
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>{{ $movimiento->tipoMov }}</td>
-                    <td>{{ $movimiento->cantidad }}</td>
-                    <td>{{ $movimiento->ubicacion->nombre ?? 'No asignada' }}</td>
-                    <td>
-                        {{ \Carbon\Carbon::parse($movimiento->fecha)->format('Y-m-d') }}
-                    </td>
-                    <td>
-                        {{ \Carbon\Carbon::parse($movimiento->fecha)->format('H:i:s') }}
-                    </td>
-                    <td>{{ $movimiento->estado }}</td>
-                    <td>{{ $movimiento->usuario->username ?? 'No asignado' }}</td>
+                    <th>Tipo de Movimiento</th>
+                    <th>Cantidad</th>
+                    <th>Ubicación</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+                    <th>Usuario</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-center mt-4">
-        {{ $movimientos->links('pagination::bootstrap-5') }}
-    </div>
-    
+            </thead>
+            <tbody>
+                @foreach ($movimientos as $movimiento)
+                    <tr>
+                        <td>{{ $movimiento->tipoMov }}</td>
+                        <td>{{ $movimiento->cantidad }}</td>
+                        <td>{{ $movimiento->ubicacion->nombre ?? 'No asignada' }}</td>
+                        <td>
+                            {{ \Carbon\Carbon::parse($movimiento->fecha)->format('Y-m-d') }}
+                        </td>
+                        <td>
+                            {{ \Carbon\Carbon::parse($movimiento->fecha)->format('H:i:s') }}
+                        </td>
+                        <td>{{ $movimiento->estado }}</td>
+                        <td>{{ $movimiento->usuario->username ?? 'No asignado' }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $movimientos->links('pagination::bootstrap-5') }}
+        </div>
+    @endif
 </div>
-
-
 
 @endsection

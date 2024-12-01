@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Alerta de Nivel Crítico de Inventario</title>
+
+    <style>
+
+        ul{
+            list-style: none;
+        }
+
+        strong{
+            text-transform: capitalize;
+        }
+        
+
+    </style>
 </head>
 <body>
     <p>⚠️ <strong>Alerta de Nivel Crítico</strong></p>
