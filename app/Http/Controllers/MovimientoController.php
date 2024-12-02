@@ -12,14 +12,14 @@ use Illuminate\Http\Request;
 
 class MovimientoController extends Controller
 {
-    public function store(Request $request, EmailController $emailController)
-{
+    public function store(Request $request, EmailController $emailController){
+
     $request->validate([
         'tipoMov' => 'required|string',
         'cantidad' => 'required|integer|min:1',
         'tipoRopa' => 'required|string',
-        'estado' => 'required|string|in:limpia,sucia', // Los estados permitidos
-        'ubicacion_id' => 'required|exists:ubicacion,id', // Verificación de la ubicación
+        'estado' => 'required|string|in:limpia,sucia', 
+        'ubicacion_id' => 'required|exists:ubicacion,id', 
     ]);
 
     $inventario = Inventario::where('ubicacion_id', $request->ubicacion_id)->first();
@@ -28,7 +28,6 @@ class MovimientoController extends Controller
         return back();
     }
 
-    // Si el movimiento es un **EGRESO**
     if ($request->tipoMov == 'Egreso') {
         $ropa = Ropa::where('inventario_id', $inventario->id)
             ->where('tipo', $request->tipoRopa)
@@ -49,12 +48,13 @@ class MovimientoController extends Controller
     $movimiento->tipoMov = $request->tipoMov;
     $movimiento->cantidad = $request->cantidad;
     $movimiento->tipoRopa = $request->tipoRopa;
-    $movimiento->estado = $request->tipoMov == 'Ingreso' ? 'limpia' : $request->estado; // Si es ingreso, la ropa es limpia
+    $movimiento->estado =  $request->estado;
     $movimiento->ubicacion_id = $request->ubicacion_id;
     $movimiento->usuario_id = Auth::id(); // Obtener el ID del usuario que realiza el movimiento
     $movimiento->fecha = now();
     $movimiento->save();
 
+    // Validaciones de inventario
     if ($request->tipoMov == 'Ingreso') {
         $ropaDestino = Ropa::where('inventario_id', $inventario->id)
             ->where('tipo', $request->tipoRopa)

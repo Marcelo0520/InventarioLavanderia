@@ -24,7 +24,7 @@
             <select class="form-select" id="ubicacion" name="ubicacion_id" required>
                 <option value="">Seleccione una ubicación</option>
                 @foreach ($ubicaciones as $ubicacion)
-                    <option value="{{ $ubicacion->id }}">{{ $ubicacion->nombre }}</option>
+                    <option value="{{ $ubicacion->id }}">{{ $ubicacion->nombre }} - {{ $ubicacion->tipoArea }} - {{ $ubicacion->departamento }}</option>
                 @endforeach
             </select>
         </div>

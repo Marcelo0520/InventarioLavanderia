@@ -18,6 +18,7 @@ class EmailController extends Controller
             return;
         }
 
+        // Obtiene el id del inventario de donde se hizo el movimiento
         $inventarios = Inventario::where('ubicacion_id', $ubicacionId)->get();
         
         $ropasConEscasez = [];

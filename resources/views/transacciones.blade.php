@@ -57,6 +57,7 @@
             <thead>
                 <tr>
                     <th>Tipo de Movimiento</th>
+                    <th>Tipo de ropa</th>
                     <th>Cantidad</th>
                     <th>Ubicación</th>
                     <th>Fecha</th>
@@ -69,10 +70,11 @@
                 @foreach ($movimientos as $movimiento)
                     <tr>
                         <td>{{ $movimiento->tipoMov }}</td>
+                        <td>{{ $movimiento->tipoRopa}}</td>
                         <td>{{ $movimiento->cantidad }}</td>
-                        <td>{{ $movimiento->ubicacion->nombre ?? 'No asignada' }}</td>
+                        <td>{{ $movimiento->ubicacion->nombre}} - {{ $movimiento->ubicacion->departamento}}</td>
                         <td>
-                            {{ \Carbon\Carbon::parse($movimiento->fecha)->format('Y-m-d') }}
+                            {{ \Carbon\Carbon::parse($movimiento->fecha)->format('d-m-Y') }}
                         </td>
                         <td>
                             {{ \Carbon\Carbon::parse($movimiento->fecha)->format('H:i:s') }}
